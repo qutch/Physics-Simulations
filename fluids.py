@@ -15,7 +15,7 @@ dampeningValue = 0.9
 
 
 class Particle:
-    def __init__(self, pos, vel, acc, radius):
+    def __init__(self, pos, vel, acc, mass, radius):
         """
         1. Add mass to this simulation
         2. Follow proper physics formulas for collisons and stuff
@@ -24,6 +24,7 @@ class Particle:
         self.pos = np.asarray(pos, dtype=np.float64)
         self.vel = np.asarray(vel, dtype=np.float64)
         self.acc = np.asarray(acc, dtype=np.float64)
+        self.mass = mass
         self.radius = radius
 
 
@@ -31,11 +32,12 @@ class Particle:
         pygame.draw.circle(screen, "white", self.pos, self.radius)
     
     def accelerate(self):
-        pass
+        self.acc += 9.8 / self.mass # CHANGE THIS
+
 
     def update(self):
         particle.calcWallCollision()
-        self.pos += self.vel
+        self.pos += self.vel + 2 * self.acc  # Will probably need to change this!
     
     def calcWallCollision(self):
         if self.pos[1] + self.radius > screen_height: # Floor Collision
@@ -81,7 +83,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
-            particle = Particle((mouse_x, mouse_y), [r.choice([-2, -1, 1, 2]), r.choice([-2, -1, 1, 2])], [0,0], 10)
+            particle = Particle((mouse_x, mouse_y), [r.choice([-2, -1, 1, 2]), r.choice([-2, -1, 1, 2])], [0,0], 10, 10)
             particles.append(particle)
     
     screen.fill((33, 33, 33))
