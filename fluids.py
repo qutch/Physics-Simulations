@@ -32,19 +32,21 @@ class Particle:
         pygame.draw.circle(screen, "white", self.pos, self.radius)
     
     def accelerate(self):
-        self.acc += 9.8 / self.mass # CHANGE THIS
+        self.acc[1] += 9.8 * 0.0166
 
 
     def update(self):
         particle.calcWallCollision()
-        self.pos += self.vel + 2 * self.acc  # Will probably need to change this!
+        self.accelerate()
+        self.vel += self.acc
+        self.pos += self.vel * 0.0166  # Will probably need to change this!
     
     def calcWallCollision(self):
         if self.pos[1] + self.radius > screen_height: # Floor Collision
-            self.pos[1] = screen_height - self.radius
+            self.pos[1] = screen_height - self.radius - 1
             self.vel[1] *= -1 * dampeningValue
         if self.pos[1] - self.radius < 0: # Ceiling Collision
-            self.pos[1] = self.radius
+            self.pos[1] = self.radius + 1
             self.vel[1] *= -1 * dampeningValue
         if self.pos[0] + self.radius > screen_width: # Right Wall Collision
             self.pos[0] = screen_width - self.radius
@@ -61,7 +63,6 @@ class Particle:
 
                 if distance < minDistance:
                     overlap = float(self.radius + other.radius - distance)
-                    normal = other.pos - self.pos
 
                     self.pos += overlap
                     other.pos -= overlap
