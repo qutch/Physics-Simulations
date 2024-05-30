@@ -44,10 +44,10 @@ class Particle:
     def calcWallCollision(self):
         if self.pos[1] + self.radius > screen_height: # Floor Collision
             self.pos[1] = screen_height - self.radius - 1
-            self.vel[1] *= -1 * dampeningValue
+            self.vel[1] *= -1
         if self.pos[1] - self.radius < 0: # Ceiling Collision
             self.pos[1] = self.radius + 1
-            self.vel[1] *= -1 * dampeningValue
+            self.vel[1] *= -1
         if self.pos[0] + self.radius > screen_width: # Right Wall Collision
             self.pos[0] = screen_width - self.radius
             self.vel[0] *= -1 * 0.8
